@@ -1,39 +1,45 @@
-import { Server } from 'http';
+import config from './config/index';
 import app from './app';
-import config from './config';
 
+// getting-started.js
+import mongoose from 'mongoose';
+import { Server } from 'http';
 
+process.on('uncaughtException', error => {
+  console.log(error);
+  process.exit(1);
+});
 
-async function bootstrap() {
+let server: Server;
 
-  const server: Server = app.listen(config.port, () => {
-    console.info(`Server running on port ${config.port}`);
-  });
+async function main() {
+  try {
+    server = app.listen(config.port, () => {
+      console.log('Connected');
 
-  const exitHandler = () => {
+      console.log(`Application  listening on port ${config.port}`);
+    });
+  } catch (error) {
+    console.log('Failed to connect database', error);
+  }
 
+  process.on('unhandledRejection', err => {
     if (server) {
       server.close(() => {
-        console.info('Server closed');
+        console.log(err);
+        process.exit(1);
       });
-    }
-    process.exit(1);
-  };
-
-  const unexpectedErrorHandler = (error: unknown) => {
-    console.error(error);
-    exitHandler();
-  };
-
-  process.on('uncaughtException', unexpectedErrorHandler);
-  process.on('unhandledRejection', unexpectedErrorHandler);
-
-  process.on('SIGTERM', () => {
-    console.info('SIGTERM received');
-    if (server) {
-      server.close();
+    } else {
+      process.exit(1);
     }
   });
 }
 
-bootstrap();
+main();
+
+process.on('SIGTERM', () => {
+  console.log('SIGTERM recieved');
+  if (server) {
+    server.close();
+  }
+});
