@@ -1,35 +1,30 @@
-type IOptions = {
-  page?: number;
-  limit?: number;
-  sortBy?: string;
-  sortOrder?: string;
-};
+import { SortOrder } from 'mongoose';
+import { IPagination } from '../interfaces/pagination';
 
-type IOptionsResult = {
-  page: number;
-  limit: number;
+type IPaginationMap = IPagination & {
   skip: number;
-  sortBy: string;
-  sortOrder: string;
+  sortObject: { [key: string]: SortOrder };
 };
 
-const calculatePagination = (options: IOptions): IOptionsResult => {
-  const page = Number(options.page || 1);
-  const limit = Number(options.limit || 10);
-  const skip = (page - 1) * limit;
+export const pagination_map = (
+  pagination_data: Partial<IPagination>,
+  default_sort_by: string
+): IPaginationMap => {
+  const page = pagination_data.page ? Number(pagination_data.page) : 1;
+  const size = pagination_data.size ? Number(pagination_data.size) : 5;
+  const skip = (page - 1) * size;
 
-  const sortBy = options.sortBy || 'createdAt';
-  const sortOrder = options.sortOrder || 'desc';
+  const sortBy = pagination_data.sortBy || default_sort_by;
+  const sortOrder = pagination_data.sortOrder || 'desc';
+
+  const sortObject = { [sortBy]: sortOrder };
 
   return {
     page,
-    limit,
+    size,
     skip,
     sortBy,
     sortOrder,
+    sortObject,
   };
-};
-
-export const paginationHelpers = {
-  calculatePagination,
 };
