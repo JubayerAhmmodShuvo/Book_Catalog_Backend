@@ -5,17 +5,17 @@ import path from 'path';
 dotenv.config({ path: path.join(process.cwd(), '.env') });
 
 export default {
-  env: process.env.NODE_ENV,
+  node_env: process.env.NODE_ENV,
   port: process.env.PORT,
   database_url: process.env.DATABASE_URL,
-  default_student_pass: process.env.DEFAULT_STUDENT_PASS,
-  default_faculty_pass: process.env.DEFAULT_FACULTY_PASS,
-  default_admin_pass: process.env.DEFAULT_ADMIN_PASS,
-  bycrypt_salt_rounds: process.env.BCRYPT_SALT_ROUNDS,
+  default_user_password: process.env.DEFAULT_USER_PASSWORD,
+  default_student_password: process.env.DEFAULT_USER_PASSWORD,
+  default_faculty_password: process.env.DEFAULT_USER_PASSWORD,
+  bcrypt_salt_rounds: process.env.BCRYPT_SALT_ROUNDS,
   jwt: {
-    secret: process.env.JWT_SECRET,
-    refresh_secret: process.env.JWT_REFRESH_SECRET,
-    expires_in: process.env.JWT_EXPIRES_IN,
-    refresh_expires_in: process.env.JWT_REFRESH_EXPIRES_IN,
+    access_token_secret: process.env.JWT_SECRET,
+    access_token_expiresIn: process.env.JWT_EXPIRES_IN,
+    refresh_token_secret: process.env.JWT_REFRESH_SECRET,
+    refresh_token_expiresIn: process.env.JWT_REFRESH_EXPIRES_IN,
   },
 };
