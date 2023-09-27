@@ -1,12 +1,12 @@
+import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
-import express, { Application, NextFunction, Request, Response } from 'express';
 import httpStatus from 'http-status';
-import globalErrorHandler from './app/middlewares/globalErrorHandler';
-import routes from './app/routes';
-
+import { error_type } from './interfaces/error';
+import global_error_handler from './app/middlewares/globalErrorHandler';
+import AllRoutes from './routes/Routes';
 import cookieParser from 'cookie-parser';
 
-const app: Application = express();
+const app = express();
 
 app.use(cors());
 app.use(cookieParser());
@@ -15,24 +15,31 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/api/v1', routes);
+// Application routes
+app.use('/api/v1/', AllRoutes);
 
+// testing
+app.get('/', (req, res) => {
+  res.send("Book Calalog");
+});
 
-//global error handler
-app.use(globalErrorHandler);
+// Global error
+app.use(global_error_handler);
 
-//handle not found
+// Undefined error
 app.use((req: Request, res: Response, next: NextFunction) => {
-  res.status(httpStatus.NOT_FOUND).json({
+  const error_data: error_type = {
     success: false,
-    message: 'Not Found',
+    message: 'NOT FOUND',
     errorMessages: [
       {
         path: req.originalUrl,
-        message: 'API Not Found',
+        message: 'Api not found ',
       },
     ],
-  });
+  };
+  res.status(httpStatus.NOT_FOUND).json(error_data);
+
   next();
 });
 
