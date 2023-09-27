@@ -1,7 +1,7 @@
 import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import httpStatus from 'http-status';
-import { error_type } from './interfaces/error';
+import { error_res_type } from './interfaces/error';
 import global_error_handler from './app/middlewares/globalErrorHandler';
 import AllRoutes from './routes/Routes';
 import cookieParser from 'cookie-parser';
@@ -28,7 +28,7 @@ app.use(global_error_handler);
 
 // Undefined error
 app.use((req: Request, res: Response, next: NextFunction) => {
-  const error_data: error_type = {
+  const error_data: error_res_type = {
     success: false,
     message: 'NOT FOUND',
     errorMessages: [

@@ -1,20 +1,23 @@
-import mongoose from 'mongoose';
-import { IGenericErrorMessage } from '../interfaces/error';
+import { Prisma } from '@prisma/client';
+import {
+  generic_error_type,
+  modified_error_res_type,
+} from '../../src/interfaces/error';
+import httpStatus from 'http-status';
 
-const handleCastError = (error: mongoose.Error.CastError) => {
-  const errors: IGenericErrorMessage[] = [
+export const handleKnownError = (
+  err: Prisma.PrismaClientKnownRequestError
+): modified_error_res_type => {
+  const all_errors: generic_error_type[] = [
     {
-      path: error.path,
-      message: 'Invalid Id',
+      path: '',
+      message: err?.message ?? 'There have issue currently',
     },
   ];
 
-  const statusCode = 400;
   return {
-    statusCode,
-    message: 'Cast Error',
-    errorMessages: errors,
+    status_code: httpStatus.FORBIDDEN,
+    message: err?.message ?? 'Cast error; Invalid id ',
+    errorMessages: all_errors,
   };
 };
-
-export default handleCastError;

@@ -1,75 +1,47 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-unused-expressions */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { ErrorRequestHandler, NextFunction, Request, Response } from 'express';
-import config from '../../config';
+/* eslint-disable no-unused-expressions */
+import { ErrorRequestHandler } from 'express';
+import { generic_error_type } from '../../interfaces/error';
+import { handleValidationError } from '../../errors/handleValidationError';
 import ApiError from '../../errors/ApiError';
-import handleValidationError from '../../errors/handleValidationError';
-
 import { ZodError } from 'zod';
-import handleCastError from '../../errors/handleCastError';
-import handleZodError from '../../errors/handleZodError';
-import { IGenericErrorMessage } from '../../interfaces/error';
+import HandleZodValidationError from '../../errors/handleZodError';
+import { handleKnownError } from '../../errors/handleCastError';
+import { Prisma } from '@prisma/client';
 
+const global_error_handler: ErrorRequestHandler = (error, req, res, next) => {
+  let status_code = 500;
+  let message = 'Something went wrong';
+  let errorMessages: generic_error_type[] = [];
 
-const globalErrorHandler: ErrorRequestHandler = (
-  error,
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  config.env === 'development'
-    ? console.log(`🐱‍🏍 globalErrorHandler ~~`, { error })
-    : console.error(`🐱‍🏍 globalErrorHandler ~~`, error);
-
-  let statusCode = 500;
-  let message = 'Something went wrong !';
-  let errorMessages: IGenericErrorMessage[] = [];
-
-  if (error?.name === 'ValidationError') {
-    const simplifiedError = handleValidationError(error);
-    statusCode = simplifiedError.statusCode;
-    message = simplifiedError.message;
-    errorMessages = simplifiedError.errorMessages;
+  if (error instanceof Prisma.PrismaClientValidationError) {
+    const validation_error = handleValidationError(error);
+    status_code = validation_error.status_code;
+    message = validation_error.message;
+    errorMessages = validation_error.errorMessages;
   } else if (error instanceof ZodError) {
-    const simplifiedError = handleZodError(error);
-    statusCode = simplifiedError.statusCode;
-    message = simplifiedError.message;
-    errorMessages = simplifiedError.errorMessages;
-  } else if (error?.name === 'CastError') {
-    const simplifiedError = handleCastError(error);
-    statusCode = simplifiedError.statusCode;
-    message = simplifiedError.message;
-    errorMessages = simplifiedError.errorMessages;
+    const z_validation_error = HandleZodValidationError(error);
+    status_code = z_validation_error.status_code;
+    message = z_validation_error.message;
+    errorMessages = z_validation_error.errorMessages;
+  } else if (error instanceof Prisma.PrismaClientKnownRequestError) {
+    const cast_error = handleKnownError(error);
+    status_code = cast_error.status_code;
+    message = cast_error.message;
+    errorMessages = cast_error.errorMessages;
   } else if (error instanceof ApiError) {
-    statusCode = error?.statusCode;
-    message = error.message;
-    errorMessages = error?.message
-      ? [
-          {
-            path: '',
-            message: error?.message,
-          },
-        ]
-      : [];
+    status_code = error.statusCode;
+    message = 'Api Connection error';
+    errorMessages = error.message ? [{ path: '', message: error.message }] : [];
   } else if (error instanceof Error) {
-    message = error?.message;
-    errorMessages = error?.message
-      ? [
-          {
-            path: '',
-            message: error?.message,
-          },
-        ]
-      : [];
+    message = 'Internal error';
+    errorMessages = error.message ? [{ path: '', message: error.message }] : [];
   }
-
-  res.status(statusCode).json({
+  res.status(status_code).json({
     success: false,
     message,
     errorMessages,
-    stack: config.env !== 'production' ? error?.stack : undefined,
+    stack: error?.stack, //config?.node_env === 'development' ? error?.stack : undefined,
   });
 };
-
-export default globalErrorHandler;
+export default global_error_handler;

@@ -1,16 +1,23 @@
-import { IGenericErrorMessage } from './error';
+export type IUser_role = 'seller' | 'buyer' | 'admin';
 
-export type IGenericResponse<T> = {
-  meta: {
-    page: number;
-    limit: number;
-    total: number;
-  };
-  data: T;
+export type ILocations =
+  | 'Dhaka'
+  | 'Chattogram'
+  | 'Barishal'
+  | 'Rajshahi'
+  | 'Sylhet'
+  | 'Comilla'
+  | 'Rangpur'
+  | 'Mymensingh';
+
+export type IMeta = {
+  page: number;
+  size: number;
+  total: number;
+  totalPage: number;
 };
 
-export type IGenericErrorResponse = {
-  statusCode: number;
-  message: string;
-  errorMessages: IGenericErrorMessage[];
+export type GenericResponse<T> = {
+  meta?: IMeta;
+  data: T;
 };
