@@ -19,7 +19,8 @@ model User {
   contactNo           String
   address             String
   profileImg          String
-
+  review_and_rattings ReviewAndRatting[]
+  Order               Order[]
 }
 
 enum UserRole {
@@ -42,5 +43,39 @@ model Book {
   publicationDate     DateTime
   categoryId          String
   category            Category           @relation(fields: [categoryId], references: [id])
- 
+  review_and_rattings ReviewAndRatting[]
+  OrderBooks          OrderBook[]
+}
+
+model ReviewAndRatting {
+  id     String @id @default(uuid())
+  review String
+  rating Int
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+  bookId String
+  book   Book   @relation(fields: [bookId], references: [id])
+}
+
+model Order {
+  id         String      @id @default(uuid())
+  userId     String
+  user       User        @relation(fields: [userId], references: [id])
+  status     OrderStatus @default(pending)
+  createdAt  DateTime    @default(now())
+  OrderBooks OrderBook[]
+}
+
+enum OrderStatus {
+  pending
+  shipped
+}
+
+model OrderBook {
+  id       String @id @default(uuid())
+  quantity Int    @default(1)
+  bookId   String
+  book     Book   @relation(fields: [bookId], references: [id])
+  orderId  String
+  order    Order  @relation(fields: [orderId], references: [id])
 }
