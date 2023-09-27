@@ -11,6 +11,7 @@ type ISendResponse<T, K> = {
 const sendResponse = <T, K>(res: Response, data: ISendResponse<T, K>): void => {
   res.status(data.status_code).json({
     success: data.success,
+    statusCode: data.status_code,
     message: data.message ?? '',
     meta: data.meta || undefined,
     data: data.data ?? null,
