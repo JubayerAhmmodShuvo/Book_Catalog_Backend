@@ -11,7 +11,7 @@ export const pagination_map = (
   default_sort_by: string
 ): IPaginationMap => {
   const page = pagination_data.page ? Number(pagination_data.page) : 1;
-  const size = pagination_data.size ? Number(pagination_data.size) : 5;
+  const size = pagination_data.size ? Number(pagination_data.size) : 10;
   const skip = (page - 1) * size;
 
   const sortBy = pagination_data.sortBy || default_sort_by;
