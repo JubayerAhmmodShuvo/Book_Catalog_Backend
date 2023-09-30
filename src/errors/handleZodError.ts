@@ -1,22 +1,21 @@
 import { ZodError, ZodIssue } from 'zod';
-import { IGenericErrorResponse } from '../interfaces/common';
-import { IGenericErrorMessage } from '../interfaces/error';
+import {
+  generic_error_type,
+  modified_error_res_type,
+} from '../interfaces/error';
 
-const handleZodError = (error: ZodError): IGenericErrorResponse => {
-  const errors: IGenericErrorMessage[] = error.issues.map((issue: ZodIssue) => {
-    return {
-      path: issue?.path[issue.path.length - 1],
-      message: issue?.message,
-    };
+const handleZodError = (error: ZodError): modified_error_res_type => {
+  const all_errors: generic_error_type[] = error.issues.map((el: ZodIssue) => {
+    return { path: el?.path[el?.path?.length - 1], message: el?.message };
   });
-
-  const statusCode = 400;
+  console.log('====================================');
+  console.log();
+  console.log('====================================');
 
   return {
-    statusCode,
-    message: 'Validation Error',
-    errorMessages: errors,
+    status_code: 400,
+    message: 'Validation error;Some values are missing or incorrect',
+    errorMessages: all_errors,
   };
 };
-
 export default handleZodError;
