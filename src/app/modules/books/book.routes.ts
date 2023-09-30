@@ -21,10 +21,10 @@ router.get('/:id', BookController.bookDetails);
 
 router.patch(
   '/:id',
-  authHandler(),
+  authHandler(UserRole.admin),
   requestValidationHandler(update_book_zod_schema),
   BookController.updateBook
 );
-router.delete('/:id', authHandler(), BookController.deleteBook);
+router.delete('/:id', authHandler(UserRole.admin), BookController.deleteBook);
 
 export const BookRoute = router;

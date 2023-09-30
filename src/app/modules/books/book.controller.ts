@@ -53,7 +53,7 @@ const allBooks = catchAsync(async (req: Request, res: Response) => {
     message: 'Books retrieved successfully',
   });
 });
-//
+
 const cateGoryBooks = catchAsync(async (req: Request, res: Response) => {
   const { categoryID } = req.params;
   const pagination = pick(req.query, pagination_keys);
