@@ -38,16 +38,16 @@
 
 ### https://backend-of-book-catalog.vercel.app/api/v1/books/22da95fe-a5ce-411c-b09e-c49811bc625a (GET)
 
-### https://backend-of-book-catalog.vercel.app/api/v1/books/:id (PATCH)
+### https://backend-of-book-catalog.vercel.app/api/v1/books/b41648ce-bfc8-42ad-9cc4-8f410afa9aec (PATCH)
 
-### https://backend-of-book-catalog.vercel.app/api/v1/books/:id (DELETE)
+### https://backend-of-book-catalog.vercel.app/api/v1/books/a46d6793-f1dc-4ef9-8203-4f1b8f4a5344 (DELETE)
 
 ## Orders
 ### https://backend-of-book-catalog.vercel.app/api/v1/orders/create-order (POST)
 
 ### https://backend-of-book-catalog.vercel.app/api/v1/orders (GET)
 
-### https://backend-of-book-catalog.vercel.app/api/v1/orders/:orderId (GET)
+### https://backend-of-book-catalog.vercel.app/api/v1/orders/4c1cc529-2035-4ba3-87c0-a1692440e4b3 (GET)
 
 
 
