@@ -5,7 +5,8 @@ type ISendResponse<T, K> = {
   message: string;
   success: boolean;
   meta?: K | null;
-  data: T | null;
+  data?: T | null;
+  token?: string;
 };
 
 const sendResponse = <T, K>(res: Response, data: ISendResponse<T, K>): void => {
@@ -14,7 +15,8 @@ const sendResponse = <T, K>(res: Response, data: ISendResponse<T, K>): void => {
     statusCode: data.status_code,
     message: data.message ?? '',
     meta: data.meta || undefined,
-    data: data.data ?? null,
+    data: data.data || undefined,
+    token: data?.token || undefined,
   });
 };
 
