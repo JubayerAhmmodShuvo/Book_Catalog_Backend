@@ -50,7 +50,7 @@ const allBooks = catchAsync(async (req: Request, res: Response) => {
     status_code: httpStatus.OK,
     success: true,
     data: result,
-    message: 'Books retrieved successfully',
+    message: 'Books fetched successfully',
   });
 });
 
@@ -67,7 +67,7 @@ const cateGoryBooks = catchAsync(async (req: Request, res: Response) => {
     status_code: httpStatus.OK,
     success: true,
     data: result,
-    message: 'Category Books retrieved successfully',
+    message: 'Books with associated category data fetched successfully',
   });
 });
 
@@ -81,7 +81,7 @@ const bookDetails = catchAsync(async (req: Request, res: Response) => {
     status_code: httpStatus.OK,
     success: true,
     data: result,
-    message: 'Book details retrieved successfully',
+    message: 'Book fetched successfully',
   });
 });
 
@@ -94,7 +94,7 @@ const deleteBook = catchAsync(async (req: Request, res: Response) => {
     status_code: httpStatus.OK,
     success: true,
     data: result,
-    message: 'Book deleted successfully',
+    message: 'Book is deleted successfully',
   });
 });
 

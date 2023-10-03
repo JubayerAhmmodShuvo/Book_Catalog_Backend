@@ -13,11 +13,11 @@ const signupUser = catchAsync(async (req: Request, res: Response) => {
 	const result = await AuthServices.user_signup(user_data);
 
 	sendResponse<Partial<User>, null>(res, {
-		status_code: httpStatus.OK,
-		success: true,
-		data: result,
-		message: "User signed up successfully",
-	});
+    status_code: httpStatus.OK,
+    success: true,
+    data: result,
+    message: 'User created successfully!',
+  });
 });
 
 
@@ -27,11 +27,11 @@ const loginUser = catchAsync(async (req: Request, res: Response) => {
 	const token = result?.token;
 
 	loginSendResponse<ILoginResponse, null>(res, {
-		status_code: httpStatus.OK,
-		success: true,
-		token: token,
-		message: "User logged in successfully",
-	});
+    status_code: httpStatus.OK,
+    success: true,
+    token: token,
+    message: 'User signin successfully!',
+  });
 });
 
 export const AuthController = {

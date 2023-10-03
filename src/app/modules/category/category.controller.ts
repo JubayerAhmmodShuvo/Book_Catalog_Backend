@@ -12,7 +12,7 @@ const categoryList = catchAsync(async (req: Request, res: Response) => {
     status_code: httpStatus.OK,
     success: true,
     data: result,
-    message: 'Categories information retrieved successfully',
+    message: 'Categories fetched successfully',
   });
 });
 
@@ -26,7 +26,7 @@ const categoryDetails = catchAsync(async (req: Request, res: Response) => {
     status_code: httpStatus.OK,
     success: true,
     data: result,
-    message: 'Category information retrieved successfully',
+    message: 'Category fetched successfully',
   });
 });
 

@@ -14,7 +14,7 @@ const usersList = catchAsync(async (req: Request, res: Response) => {
     status_code: httpStatus.OK,
     success: true,
     data: result,
-    message: "User's information retrieved successfully",
+    message:  "Users retrieved successfully",
   });
 });
 
@@ -27,7 +27,7 @@ const userDetails = catchAsync(async (req: Request, res: Response) => {
     status_code: httpStatus.OK,
     success: true,
     data: result,
-    message: "User's information retrieved successfully",
+    message:  "User getched successfully",
   });
 });
 
@@ -54,7 +54,7 @@ const userUpdate = catchAsync(async (req: Request, res: Response) => {
     status_code: httpStatus.OK,
     success: true,
     data: result,
-    message: "User's updated successfully",
+    message: 'User updated successfully',
   });
 });
 
@@ -68,7 +68,7 @@ const deleteUser = catchAsync(async (req: Request, res: Response) => {
     status_code: httpStatus.OK,
     success: true,
     data: result,
-    message: "User's deleted successfully",
+    message: 'Uers deleted successfully',
   });
 });
 

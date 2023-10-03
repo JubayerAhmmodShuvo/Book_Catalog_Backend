@@ -21,7 +21,7 @@ const AllOrdersList = catchAsync(async (req: Request, res: Response) => {
     status_code: httpStatus.OK,
     success: true,
     data: result,
-    message: 'All orders retrieved successfully',
+    message: 'Orders retrieved successfully',
   });
 });
 
@@ -36,7 +36,7 @@ const orderDetails = catchAsync(async (req: Request, res: Response) => {
     status_code: httpStatus.OK,
     success: true,
     data: result,
-    message: 'Order information retrieved successfully',
+    message: 'Order fetched successfully',
   });
 });
 
