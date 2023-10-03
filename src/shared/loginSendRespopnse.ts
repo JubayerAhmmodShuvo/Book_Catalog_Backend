@@ -5,17 +5,22 @@ type ISendResponse<T, K> = {
   message: string;
   success: boolean;
   meta?: K | null;
-  data: T | null;
+
+  token?: string;
 };
 
-const sendResponse = <T, K>(res: Response, data: ISendResponse<T, K>): void => {
+const loginSendResponse = <T, K>(
+  res: Response,
+  data: ISendResponse<T, K>
+): void => {
   res.status(data.status_code).json({
     success: data.success,
     statusCode: data.status_code,
     message: data.message ?? '',
     meta: data.meta || undefined,
-    data: data.data ?? null,
+ 
+    token: data?.token || undefined,
   });
 };
 
-export default sendResponse;
+export default loginSendResponse;

@@ -5,6 +5,7 @@ import { Request, Response } from "express";
 import { AuthServices } from "./auth.services";
 import { IUserLoginResponse } from "../user/user.interface";
 import { User } from "@prisma/client";
+import loginSendResponse from "../../../shared/loginSendRespopnse";
 
 
 const signupUser = catchAsync(async (req: Request, res: Response) => {
@@ -25,7 +26,7 @@ const loginUser = catchAsync(async (req: Request, res: Response) => {
 	const result = await AuthServices.user_login(user_data);
 	const token = result?.token;
 
-	sendResponse<ILoginResponse, null>(res, {
+	loginSendResponse<ILoginResponse, null>(res, {
 		status_code: httpStatus.OK,
 		success: true,
 		token: token,
